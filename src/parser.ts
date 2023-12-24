@@ -130,9 +130,9 @@ export class Parser {
 
     let op;
     while (op = accept(this.tokens, '+', '-')) {
-      let right = this.separation();
+      let right = this.assignment();
 
-      if (op === '+') {
+      if (op == '+') {
         return right;
       }
 
@@ -140,7 +140,7 @@ export class Parser {
       return {
         left: { left: '0', op: '-', right: '1' },
         op: '*',
-        right: right
+        right
       };
     }
 
@@ -165,10 +165,13 @@ export class Parser {
 
     let op;
     while(op = accept(this.tokens, '(')) {
+      // analyze inside parenses
       let right: any = this.separation();
+
+      // Right paren
       op += expect(this.tokens, ')');
 
-      if (right !== undefined && right.op === ',') {
+      if (right !== undefined && right.op == ',') {
         // If op is comma, the term should be vector
         return {
           left: 'vector',

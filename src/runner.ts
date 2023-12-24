@@ -1,5 +1,6 @@
 import { show, error } from './utils';
 import { ASTree } from './parser';
+import { Vector } from './math';
 
 export class Runner {
 
@@ -36,19 +37,39 @@ export class Runner {
     } else if (a.op == '+') {
       const left = this.runNode(a.left);
       const right = this.runNode(a.right);
-      return left + right;
+      if (left instanceof Vector && right instanceof Vector) {
+        return left.add(right);
+      } else {
+        return left + right;
+      }
     } else if (a.op == '-') {
       const left = this.runNode(a.left);
       const right = this.runNode(a.right);
-      return left - right;
+      if (left instanceof Vector && right instanceof Vector) {
+        return left.add(right);
+      } else {
+        return left - right;
+      }
     } else if (a.op == '*') {
       const left = this.runNode(a.left);
       const right = this.runNode(a.right);
-      return left * right;
+      if (left instanceof Vector && right instanceof Vector) {
+        return left.dot(right);
+      } else if (!(left instanceof Vector) && right instanceof Vector) {
+        return right.mul(left);
+      } else if (left instanceof Vector && !(right instanceof Vector)) {
+        return left.mul(right);
+      } else {
+        return left * right;
+      }
     } else if (a.op == '/') {
       const left = this.runNode(a.left);
       const right = this.runNode(a.right);
-      return left / right;
+      if (left instanceof Vector && !(right instanceof Vector)) {
+        return left.div(right);
+      } else {
+        return left / right;
+      }
     } else if (a.op == '**') {
       const left = this.runNode(a.left);
       const right = this.runNode(a.right);
@@ -56,11 +77,12 @@ export class Runner {
     } else if (a.op == '=') {
       const left = this.runNode(a.left);
       const right = this.runNode(a.right);
-      return this.global[left] = right;
+      this.global[left] = right;
+      return right;
     } else if (a.op == '()') {
       const func = this.runNode(a.left);
       const args = this.runNode(a.right);
-      this.runFunction(func, args);
+      return this.runFunction(func, args);
     } else {
       error('ERROR: Unknown operator op = ', a.op);
     }
@@ -69,7 +91,7 @@ export class Runner {
   runFunction(func: string, args: any) {
     if (func == 'print') {
       // 引数配列を連結する
-      const msg = args.flat().join('');
+      const msg = args.flat().map((x: any) => `${x}`).join('');
       console.log(msg);
     } else if (func == 'sin') {
       return Math.sin(args);
@@ -83,6 +105,8 @@ export class Runner {
       return Math.sqrt(args);
     } else if (func == 'log') {
       return Math.log(args);
+    } else if (func == 'vector') {
+      return new Vector(args[0], args[1]);
     } else {
       error('ERROR: Unknown function func = ', func);
     }
