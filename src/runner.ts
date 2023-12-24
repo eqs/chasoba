@@ -99,7 +99,7 @@ export class Runner {
   runFunction(func: string, args: any) {
     if (func == 'print') {
       // 引数配列を連結する
-      const msg = args.flat().map((x: any) => `${x}`).join('');
+      const msg = [args].flat().map((x: any) => `${x}`).join('');
       console.log(msg);
     } else if (func == 'sin') {
       return Math.sin(args);
@@ -115,6 +115,16 @@ export class Runner {
       return Math.log(args);
     } else if (func == 'vector') {
       return new Vector(args[0], args[1]);
+    } else if (func == 'mag') {
+      return args.mag();
+    } else if (func == 'normal') {
+      return args.normal();
+    } else if (func == 'angle') {
+      return args.angle();
+    } else if (func == 'get_x') {
+      return args.getX();
+    } else if (func == 'get_y') {
+      return args.getY();
     } else {
       error('ERROR: Unknown function func = ', func);
     }
