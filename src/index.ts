@@ -1,21 +1,25 @@
-type Point = {
-  x: number;
-  y: number;
-};
+import { read, show } from './utils';
+import { Lexer } from './lexer';
+import { Parser } from './parser';
 
-const p1: Point = {
-  x: 5.0,
-  y: 10.0,
-};
 
-const p2: Point = {
-  x: -2.0,
-  y: 3.0,
-};
+const args = process.argv.slice(2);
 
-const getPointString = (p: Point): string => {
-  return `Point { x: ${p.x}, y: ${p.y} }`;
-};
+if (args.length == 0) {
+  console.log('No input files.');
+  process.exit();
+}
 
-console.log(getPointString(p1));
-console.log(getPointString(p2));
+const source = read(args[0]);
+
+// Lexical analysis
+const lexer = new Lexer();
+const tokens = lexer.analyze(source);
+
+show('tokens = ', tokens);
+
+// Syntax analysis
+const parser = new Parser(tokens);
+const ast = parser.analyze();
+
+show('ast = ', ast);
