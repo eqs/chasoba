@@ -1,6 +1,7 @@
 import { read, show } from './utils';
 import { Lexer } from './lexer';
 import { Parser } from './parser';
+import { Runner } from './runner';
 
 
 const args = process.argv.slice(2);
@@ -25,3 +26,7 @@ const ast = parser.analyze();
 
 show('ast = ', ast);
 console.log('=============================================================================================')
+
+// Run AST
+const runner = new Runner();
+runner.run(ast);

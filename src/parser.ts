@@ -1,18 +1,18 @@
 import { show, accept, expect } from './utils';
 
-type ASTree = {
+export type ASTree = {
   root: TreeNode
 };
 
-type TreeNode = TreeBranch | TreeLeaf;
+export type TreeNode = TreeBranch | TreeLeaf;
 
-type TreeBranch = {
+export type TreeBranch = {
   left: TreeNode | undefined;
   op: string;
   right: TreeNode | undefined;
 };
 
-type TreeLeaf = string;
+export type TreeLeaf = string;
 
 
 export class Parser {
