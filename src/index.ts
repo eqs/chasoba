@@ -17,9 +17,11 @@ const lexer = new Lexer();
 const tokens = lexer.analyze(source);
 
 show('tokens = ', tokens);
+console.log('=============================================================================================')
 
 // Syntax analysis
 const parser = new Parser(tokens);
 const ast = parser.analyze();
 
 show('ast = ', ast);
+console.log('=============================================================================================')
