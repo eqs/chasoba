@@ -74,6 +74,14 @@ export class Runner {
       const left = this.runNode(a.left);
       const right = this.runNode(a.right);
       return Math.pow(left, right);
+    } else if (a.op == '-|') {
+      const left = this.runNode(a.left);
+      const right = this.runNode(a.right);
+      return left.perpXY(right);
+    } else if (a.op == '|-') {
+      const left = this.runNode(a.left);
+      const right = this.runNode(a.right);
+      return left.perpYX(right);
     } else if (a.op == '=') {
       const left = this.runNode(a.left);
       const right = this.runNode(a.right);

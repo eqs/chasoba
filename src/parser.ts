@@ -114,10 +114,22 @@ export class Parser {
   }
 
   powexpression(): TreeNode | undefined {
-    let left = this.signexpression();
+    let left = this.perpexpression();
 
     let op;
     while (op = accept(this.tokens, '**')) {
+      let right = this.perpexpression();
+      left = { left, op, right };
+    }
+
+    return left;
+  }
+
+  perpexpression(): TreeNode | undefined {
+    let left = this.signexpression();
+
+    let op;
+    while (op = accept(this.tokens, '-|', '|-')) {
       let right = this.signexpression();
       left = { left, op, right };
     }

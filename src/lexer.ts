@@ -10,8 +10,9 @@ export class Lexer {
     // Function name: \w+
     // Spaces: \s
     // Power operator: \*\*
+    // Perpendicular operator: \|-|-\|
     // others (semicolon, parenses, ...): .
-    this.pattern = /\/\/.*$|(\d+\.\d+|\d+|".*?"|\w+)|\s|(\*\*)|(.)|/m;
+    this.pattern = /\/\/.*$|(\d+\.\d+|\d+|".*?"|\w+)|\s|(\*\*|\|-|-\|)|(.)|/m;
   }
 
   analyze(source: string): string[] {

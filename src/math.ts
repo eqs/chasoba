@@ -40,6 +40,24 @@ export class Vector {
     return Math.atan2(this.y, this.x);
   }
 
+  perpXY(v: Vector): Vector {
+    // -| operator
+    return new Vector(this.x, v.y);
+  }
+
+  perpYX(v: Vector): Vector {
+    // |- operator
+    return new Vector(v.x, this.y);
+  }
+
+  getX(): number {
+    return this.x;
+  }
+
+  getY(): number {
+    return this.y;
+  }
+
   clone(): Vector {
     return new Vector(this.x, this.y);
   }
