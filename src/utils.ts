@@ -1,6 +1,10 @@
 import * as fs from 'fs';
 import * as util from 'util';
 
+export interface Default {
+  getDefault(): any;
+}
+
 export function read(filename: string): string {
   return fs.readFileSync(filename, 'utf-8');
 }
