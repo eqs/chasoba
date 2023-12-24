@@ -13,7 +13,7 @@ export function show(msg: string, obj: any) {
     colors: true,
   });
 
-  console.log(msg + obj);
+  console.log(msg + o);
 }
 
 export function error(...msgs: string[]) {
