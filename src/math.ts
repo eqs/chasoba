@@ -1,5 +1,13 @@
 import { error, Attributes } from './utils';
 
+export function deg2rad(d: number) {
+  return d / 180.0 * Math.PI;
+}
+
+export function rad2deg(r: number) {
+  return r / Math.PI * 180.0;
+}
+
 export class Vector implements Attributes {
 
   x: number;
