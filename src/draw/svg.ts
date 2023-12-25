@@ -85,19 +85,22 @@ export class StrokeStyle {
   lineCap: LineCap;
   lineJoin: LineJoin;
 
-  constructor(color: Color, width: number, lineCap?: LineCap, lineJoin?: LineJoin) {
+  // constructor(color: Color, width: number, lineCap?: LineCap, lineJoin?: LineJoin) {
+  constructor(color: Color, width: number) {
     this.color = color;
     this.width = width;
-    this.lineCap = lineCap === undefined ? 'Butt' : lineCap;
-    this.lineJoin = lineJoin === undefined ? 'Miter' : lineJoin;
+    // this.lineCap = lineCap === undefined ? 'Butt' : lineCap;
+    // this.lineJoin = lineJoin === undefined ? 'Miter' : lineJoin;
+    this.lineCap = 'Butt';
+    this.lineJoin = 'Miter';
   }
 
   static getDefault() {
     return new StrokeStyle(
       Color.getDefault(),
       2.0,
-      'Butt',
-      'Miter',
+      // 'Butt',
+      // 'Miter',
     );
   }
 }
