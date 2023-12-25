@@ -4,7 +4,7 @@
   "description": "chasoba lang",
   "main": "index.js",
   "scripts": {
-    "build": "tsc --project .",
+    "build": "tsc --project tsconfig.build.json",
     "dev": "tsc --project . && node build/index.js",
     "test": "jest"
   },
