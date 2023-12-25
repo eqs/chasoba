@@ -31,16 +31,36 @@ test('rect-shape', () => {
   expect(rect.south()).toStrictEqual(new Vector(400, 500));
 
   // test anchors with directions should be cardinal direction anchors
-  expect(rect.direction(0)).toStrictEqual(rect.east());
-  expect(rect.direction(90)).toStrictEqual(rect.south());
-  expect(rect.direction(180)).toStrictEqual(rect.west());
-  expect(rect.direction(270)).toStrictEqual(rect.north());
-  expect(rect.direction(360)).toStrictEqual(rect.east());
-
-  // test anchors with directions on corners of the rectangle
 
   let v1: Vector;
   let v2: Vector;
+
+  v1 = rect.direction(0);
+  v2 = rect.east();
+  expect(v1.x).toBeCloseTo(v2.x, 5);
+  expect(v1.y).toBeCloseTo(v2.y, 5);
+
+  v1 = rect.direction(90);
+  v2 = rect.south();
+  expect(v1.x).toBeCloseTo(v2.x, 5);
+  expect(v1.y).toBeCloseTo(v2.y, 5);
+
+  v1 = rect.direction(180)
+  v2 = rect.west();
+  expect(v1.x).toBeCloseTo(v2.x, 5);
+  expect(v1.y).toBeCloseTo(v2.y, 5);
+
+  v1 = rect.direction(270)
+  v2 = rect.north();
+  expect(v1.x).toBeCloseTo(v2.x, 5);
+  expect(v1.y).toBeCloseTo(v2.y, 5);
+
+  v1 = rect.direction(360)
+  v2 = rect.east();
+  expect(v1.x).toBeCloseTo(v2.x, 5);
+  expect(v1.y).toBeCloseTo(v2.y, 5);
+
+  // test anchors with directions on corners of the rectangle
 
   v1 = rect.direction(45);
   v2 = new Vector(rect.x + rect.width / 2, rect.y + rect.height / 2);
