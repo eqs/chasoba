@@ -12,10 +12,8 @@ export class SVGDocument {
   }
 
   render(element: SVGPrimitive): string {
-    let s = `
-    <?xml version="1.0" standalone="no" ?>
-    <svg width="${this.width}" height="${this.height}" xmlns="http://www.w3.org/2000/svg" version="2.0">
-    `;
+    let s = `<?xml version="1.0" standalone="no" ?>
+<svg width="${this.width}" height="${this.height}" xmlns="http://www.w3.org/2000/svg" version="2.0">\n`;
     s += element.toSvgTag();
     s += '</svg>';
 
