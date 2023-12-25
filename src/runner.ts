@@ -91,6 +91,10 @@ export class Runner {
       const func = this.runNode(a.left);
       const args = this.runNode(a.right);
       return this.runFunction(func, args);
+    } else if (a.op == '.') {
+      const v = this.runNode(a.left);
+      const attr = this.runNode(a.right);
+      return this.runGettingAttr(v, attr);
     } else {
       error('ERROR: Unknown operator op = ', a.op);
     }
@@ -127,6 +131,26 @@ export class Runner {
       return args.getY();
     } else {
       error('ERROR: Unknown function func = ', func);
+    }
+  }
+
+  runGettingAttr(v: any, attr: any) {
+    if (v instanceof Vector) {
+      if (attr == 'mag') {
+        return v.mag();
+      } else if (attr == 'len') {
+        return v.mag();
+      } else if (attr == 'normal') {
+        return v.normal();
+      } else if (attr == 'angle') {
+        return v.angle();
+      } else if (attr == 'x') {
+        return v.getX();
+      } else if (attr == 'y') {
+        return v.getY();
+      } else {
+        error(`ERROR: Value ${v} has no attr = ${attr}`);
+      }
     }
   }
 }

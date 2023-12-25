@@ -156,7 +156,19 @@ export class Parser {
       };
     }
 
-    return this.funccall();
+    return this.period();
+  }
+
+  period(): TreeNode | undefined {
+    let left = this.funccall();
+
+    let op;
+    while (op = accept(this.tokens, '.')) {
+      let right = this.funccall();
+      left = { left, op, right };
+    }
+
+    return left;
   }
 
   funccall(): TreeNode | undefined {
