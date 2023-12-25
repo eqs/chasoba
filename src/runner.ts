@@ -1,17 +1,21 @@
 import { show, error } from './utils';
 import { ASTree } from './parser';
 import { Vector } from './math';
+import { Canvas } from './draw/canvas';
 
 export class Runner {
 
   global: any[]
+  canvas: Canvas;
 
   constructor() {
     this.global = []
+    this.canvas = new Canvas();
   }
 
-  run(ast: ASTree) {
+  run(ast: ASTree): string {
     this.runNode(ast.root);
+    return this.canvas.render()
   }
 
   runNode(a: any): any {
