@@ -2,6 +2,7 @@ import { show, error } from './utils';
 import { ASTree } from './parser';
 import { Vector } from './math';
 import { Canvas } from './draw/canvas';
+import { Rectangle } from './draw/shapes';
 
 export class Runner {
 
@@ -137,6 +138,10 @@ export class Runner {
       return args.getX();
     } else if (func == 'get_y') {
       return args.getY();
+    } else if (func == 'rect') {
+      let rect = new Rectangle(args[0], args[1], args[2], args[3]);
+      this.canvas.addShape(rect);
+      return rect;
     } else {
       error('ERROR: Unknown function func = ', func);
     }
