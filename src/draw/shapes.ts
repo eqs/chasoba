@@ -95,6 +95,8 @@ export class Rectangle extends Shape implements Attributes, HasAnchor {
       return this.width;
     } else if (attr == 'h') {
       return this.height;
+    } else if (attr == 'center') {
+      return this.center();
     } else if (attr == 'north') {
       return this.north();
     } else if (attr == 'east') {
