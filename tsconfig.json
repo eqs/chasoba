@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
-    "rootDir": "./src",
+    "rootDir": "./",
     "outDir": "./build",
     "target": "ES5",
     "module": "CommonJS",
