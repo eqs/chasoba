@@ -1,4 +1,6 @@
-export class Vector {
+import { error, Attributes } from './utils';
+
+export class Vector implements Attributes {
 
   x: number;
   y: number;
@@ -64,5 +66,23 @@ export class Vector {
 
   toString(): string {
     return `Vector { x: ${this.x}, y: ${this.y} }`;
+  }
+
+  getAttribute(attr: any) {
+    if (attr == 'mag') {
+      return this.mag();
+    } else if (attr == 'len') {
+      return this.mag();
+    } else if (attr == 'normal') {
+      return this.normal();
+    } else if (attr == 'angle') {
+      return this.angle();
+    } else if (attr == 'x') {
+      return this.getX();
+    } else if (attr == 'y') {
+      return this.getY();
+    } else {
+      error(`ERROR: Value ${this} has no attr = ${attr}`);
+    }
   }
 }

@@ -5,6 +5,10 @@ export interface Default {
   getDefault(): any;
 }
 
+export interface Attributes {
+  getAttribute(attr: any): any;
+}
+
 export function read(filename: string): string {
   return fs.readFileSync(filename, 'utf-8');
 }
