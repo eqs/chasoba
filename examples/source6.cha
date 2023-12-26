@@ -1,5 +1,6 @@
 c1 = circle(150, 200, 50);
 c2 = circle(500, 450, 200);
+r1 = rect(150, 450, 200, 100);
 
 print(c1.east);
 print(c2.33);
@@ -34,3 +35,8 @@ circle(c2.300.x, c2.300.y, 16);
 circle(c2.315.x, c2.315.y, 16);
 circle(c2.330.x, c2.330.y, 16);
 circle(c2.345.x, c2.345.y, 16);
+
+circle(r1.45.x, r1.45.y, 24);
+circle(r1.135.x, r1.135.y, 24);
+circle(r1.225.x, r1.225.y, 24);
+circle(r1.315.x, r1.315.y, 24);
