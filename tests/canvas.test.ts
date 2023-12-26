@@ -1,7 +1,10 @@
 import { show } from '@/utils';
 import { Vector } from '@/math';
 import { Canvas } from '@/draw/canvas';
-import { Rectangle } from '@/draw/shapes';
+import {
+  Rectangle,
+  Circle,
+} from '@/draw/shapes';
 
 test('canvas', () => {
   let canvas = new Canvas();
@@ -79,6 +82,74 @@ test('rect-shape', () => {
 
   v1 = rect.direction(315);
   v2 = new Vector(rect.x + rect.width / 2, rect.y - rect.height / 2);
+  expect(v1.x).toBeCloseTo(v2.x, 5);
+  expect(v1.y).toBeCloseTo(v2.y, 5);
+});
+
+test('circle-shape', () => {
+  const circle = new Circle({ cx: 150, cy: 100, r: 50 });
+
+  // test attributes
+  expect(circle.cx).toBe(150);
+  expect(circle.cy).toBe(100);
+  expect(circle.r).toBe(50);
+
+  // test anchors
+  expect(circle.center()).toStrictEqual(new Vector(150, 100));
+  expect(circle.north()).toStrictEqual(new Vector(150, 50));
+  expect(circle.east()).toStrictEqual(new Vector(200, 100));
+  expect(circle.west()).toStrictEqual(new Vector(100, 100));
+  expect(circle.south()).toStrictEqual(new Vector(150, 150));
+
+  // test anchors with directions should be cardinal direction anchors
+
+  let v1: Vector;
+  let v2: Vector;
+
+  v1 = circle.direction(0);
+  v2 = circle.east();
+  expect(v1.x).toBeCloseTo(v2.x, 5);
+  expect(v1.y).toBeCloseTo(v2.y, 5);
+
+  v1 = circle.direction(90);
+  v2 = circle.south();
+  expect(v1.x).toBeCloseTo(v2.x, 5);
+  expect(v1.y).toBeCloseTo(v2.y, 5);
+
+  v1 = circle.direction(180)
+  v2 = circle.west();
+  expect(v1.x).toBeCloseTo(v2.x, 5);
+  expect(v1.y).toBeCloseTo(v2.y, 5);
+
+  v1 = circle.direction(270)
+  v2 = circle.north();
+  expect(v1.x).toBeCloseTo(v2.x, 5);
+  expect(v1.y).toBeCloseTo(v2.y, 5);
+
+  v1 = circle.direction(360)
+  v2 = circle.east();
+  expect(v1.x).toBeCloseTo(v2.x, 5);
+  expect(v1.y).toBeCloseTo(v2.y, 5);
+
+  // test anchors with directions on corners of the rectangle
+
+  v1 = circle.direction(45);
+  v2 = new Vector(circle.cx + circle.r / Math.sqrt(2), circle.cy + circle.r / Math.sqrt(2));
+  expect(v1.x).toBeCloseTo(v2.x, 5);
+  expect(v1.y).toBeCloseTo(v2.y, 5);
+
+  v1 = circle.direction(135);
+  v2 = new Vector(circle.cx - circle.r / Math.sqrt(2), circle.cy + circle.r / Math.sqrt(2));
+  expect(v1.x).toBeCloseTo(v2.x, 5);
+  expect(v1.y).toBeCloseTo(v2.y, 5);
+
+  v1 = circle.direction(225);
+  v2 = new Vector(circle.cx - circle.r / Math.sqrt(2), circle.cy - circle.r / Math.sqrt(2));
+  expect(v1.x).toBeCloseTo(v2.x, 5);
+  expect(v1.y).toBeCloseTo(v2.y, 5);
+
+  v1 = circle.direction(315);
+  v2 = new Vector(circle.cx + circle.r / Math.sqrt(2), circle.cy - circle.r / Math.sqrt(2));
   expect(v1.x).toBeCloseTo(v2.x, 5);
   expect(v1.y).toBeCloseTo(v2.y, 5);
 });

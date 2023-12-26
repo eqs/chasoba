@@ -2,7 +2,10 @@ import { show, error } from './utils';
 import { ASTree } from './parser';
 import { Vector } from './math';
 import { Canvas } from './draw/canvas';
-import { Rectangle } from './draw/shapes';
+import {
+  Rectangle,
+  Circle,
+} from './draw/shapes';
 
 export class Runner {
 
@@ -167,6 +170,14 @@ export class Runner {
       });
       this.canvas.addShape(rect);
       return rect;
+    } else if (func == 'circle') {
+      let circle = new Circle({
+        cx: args[0],
+        cy: args[1],
+        r: args[2],
+      });
+      this.canvas.addShape(circle);
+      return circle;
     } else {
       error('ERROR: Unknown function func = ', func);
     }
