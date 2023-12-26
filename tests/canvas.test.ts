@@ -6,7 +6,7 @@ import { Rectangle } from '@/draw/shapes';
 test('canvas', () => {
   let canvas = new Canvas();
 
-  const rect = new Rectangle(400, 400, 400, 200);
+  const rect = new Rectangle({ x: 400, y: 400, width: 400, height: 200});
   canvas.addShape(rect);
 
   console.log(canvas.render());
@@ -15,7 +15,7 @@ test('canvas', () => {
 });
 
 test('rect-shape', () => {
-  const rect = new Rectangle(400, 400, 400, 200);
+  const rect = new Rectangle({ x: 400, y: 400, width: 400, height: 200});
 
   // test attributes
   expect(rect.x).toBe(400);

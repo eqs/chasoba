@@ -159,7 +159,12 @@ export class Runner {
     } else if (func == 'get_y') {
       return args.getY();
     } else if (func == 'rect') {
-      let rect = new Rectangle(args[0], args[1], args[2], args[3]);
+      let rect = new Rectangle({
+        x: args[0],
+        y: args[1],
+        width: args[2],
+        height: args[3]
+      );
       this.canvas.addShape(rect);
       return rect;
     } else {

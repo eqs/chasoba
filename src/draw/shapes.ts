@@ -15,6 +15,13 @@ export interface HasAnchor {
   direction(dir: number): Vector;
 }
 
+export interface RectangleArgs {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 export class Rectangle extends Shape implements Attributes, HasAnchor {
 
   x: number;
@@ -22,8 +29,18 @@ export class Rectangle extends Shape implements Attributes, HasAnchor {
   width: number;
   height: number;
 
-  constructor(x: number, y: number, width: number, height: number) {
+  constructor(args: RectangleArgs) {
     super();
+
+    const {
+      x,
+      y,
+      width,
+      height,
+    } = {
+      ...args
+    };
+
     this.x = x;
     this.y = y;
     this.width = width;
