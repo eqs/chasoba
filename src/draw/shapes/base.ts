@@ -1,7 +1,16 @@
 import * as svg from '../svg';
 import { Vector } from '../../math';
+import { v4 as uuidv4 } from 'uuid';
+
 
 export abstract class Shape {
+
+  id: string;
+
+  constructor() {
+    this.id = uuidv4();
+  }
+
   abstract render(): svg.SVGPrimitive;
 }
 
