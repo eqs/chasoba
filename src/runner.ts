@@ -6,6 +6,7 @@ import {
   Rectangle,
   Circle,
   TextBox,
+  Line,
 } from './draw/shapes';
 
 export class Runner {
@@ -187,6 +188,14 @@ export class Runner {
         y: args[2],
       });
       return textbox;
+    } else if (func == 'line') {
+      let line = new Line({
+        x1: args[0],
+        y1: args[1],
+        x2: args[2],
+        y2: args[3],
+      });
+      return line;
     } else {
       error('ERROR: Unknown function func = ', func);
     }

@@ -22,3 +22,9 @@ export interface HasAnchor {
   south(): Vector;
   direction(dir: number): Vector;
 }
+
+export interface HasLineAnchor {
+  start(): Vector;
+  end(): Vector;
+  internalDivision(t: number): Vector;
+}
