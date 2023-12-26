@@ -5,6 +5,7 @@ import { Canvas } from './draw/canvas';
 import {
   Rectangle,
   Circle,
+  TextBox,
 } from './draw/shapes';
 
 export class Runner {
@@ -178,6 +179,14 @@ export class Runner {
       });
       this.canvas.addShape(circle);
       return circle;
+    } else if (func == 'text') {
+      let textbox = new TextBox({
+        text: args[0],
+        x: args[1],
+        y: args[2],
+      });
+      this.canvas.addShape(textbox);
+      return textbox;
     } else {
       error('ERROR: Unknown function func = ', func);
     }

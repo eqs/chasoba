@@ -43,13 +43,13 @@ export class TextBox extends Shape implements Attributes, HasAnchor {
     this.x = x;
     this.y = y;
     this.padding = padding ?? 0;
-    this.margin = margin ?? 0;
+    this.margin = margin ?? 8;
     this.fontSize = fontSize ?? 24;
     this.on = on ?? new Rectangle({
       x: this.x,
       y: this.y,
-      width: this.fontSize * this.text.length + this.padding * 2 + this.margin * 2,
-      height: this.fontSize + this.padding * 2 + this.margin * 2
+      width: this.fontSize * this.text.length + this.margin * 2,
+      height: this.fontSize + this.margin * 2
     });
   }
 
