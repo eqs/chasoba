@@ -44,49 +44,69 @@ export class Runner {
       const right = this.runNode(a.right);
       if (left instanceof Vector && right instanceof Vector) {
         return left.add(right);
-      } else {
+      } else if (typeof left == 'number' && typeof right == 'number') {
         return left + right;
+      } else {
+        error(`ERROR: Unsupported operand types for ${a.op}: '${left}' and '${right}'`);
       }
     } else if (a.op == '-') {
       const left = this.runNode(a.left);
       const right = this.runNode(a.right);
       if (left instanceof Vector && right instanceof Vector) {
-        return left.add(right);
-      } else {
+        return left.sub(right);
+      } else if (typeof left == 'number' && typeof right == 'number') {
         return left - right;
+      } else {
+        error(`ERROR: Unsupported operand types for ${a.op}: '${left}' and '${right}'`);
       }
     } else if (a.op == '*') {
       const left = this.runNode(a.left);
       const right = this.runNode(a.right);
       if (left instanceof Vector && right instanceof Vector) {
         return left.dot(right);
-      } else if (!(left instanceof Vector) && right instanceof Vector) {
+      } else if (typeof left == 'number' && right instanceof Vector) {
         return right.mul(left);
-      } else if (left instanceof Vector && !(right instanceof Vector)) {
+      } else if (left instanceof Vector && typeof right == 'number') {
         return left.mul(right);
-      } else {
+      } else if (typeof left == 'number' && typeof right == 'number') {
         return left * right;
+      } else {
+        error(`ERROR: Unsupported operand types for ${a.op}: '${left}' and '${right}'`);
       }
     } else if (a.op == '/') {
       const left = this.runNode(a.left);
       const right = this.runNode(a.right);
       if (left instanceof Vector && !(right instanceof Vector)) {
         return left.div(right);
-      } else {
+      } else if (typeof left == 'number' && typeof right == 'number') {
         return left / right;
+      } else {
+        error(`ERROR: Unsupported operand types for ${a.op}: '${left}' and '${right}'`);
       }
     } else if (a.op == '**') {
       const left = this.runNode(a.left);
       const right = this.runNode(a.right);
-      return Math.pow(left, right);
+      if (typeof left == 'number' && typeof right == 'number') {
+        return Math.pow(left, right);
+      } else {
+        error(`ERROR: Unsupported operand types for ${a.op}: '${left}' and '${right}'`);
+      }
     } else if (a.op == '-|') {
       const left = this.runNode(a.left);
       const right = this.runNode(a.right);
-      return left.perpXY(right);
+      if (left instanceof Vector && right instanceof Vector) {
+        return left.perpXY(right);
+      } else {
+        error(`ERROR: Unsupported operand types for ${a.op}: '${left}' and '${right}'`);
+      }
     } else if (a.op == '|-') {
       const left = this.runNode(a.left);
       const right = this.runNode(a.right);
-      return left.perpYX(right);
+      if (left instanceof Vector && right instanceof Vector) {
+        return left.perpYX(right);
+      } else {
+        error(`ERROR: Unsupported operand types for ${a.op}: '${left}' and '${right}'`);
+      }
     } else if (a.op == '=') {
       const left = this.runNode(a.left);
       const right = this.runNode(a.right);
