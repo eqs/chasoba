@@ -4,35 +4,62 @@ import { Parser } from './parser';
 import { Runner } from './runner';
 
 
-const args = process.argv.slice(2);
+export class Chasoba {
 
-if (args.length == 0) {
-  console.log('No input files.');
-  process.exit();
+  constructor() {}
+
+  render(source: string, verbose: boolean = false): string {
+    // Lexical analysis
+    const lexer = new Lexer();
+    const tokens = lexer.analyze(source);
+
+    if (verbose) {
+      show('tokens = ', tokens);
+      console.log('='.repeat(80));
+    }
+
+    // Syntax analysis
+    const parser = new Parser(tokens);
+    const ast = parser.analyze();
+
+    if (verbose) {
+      show('ast = ', ast);
+      console.log('='.repeat(80));
+    }
+
+    // Run AST
+    const runner = new Runner();
+    const svg = runner.run(ast);
+
+    if (verbose) {
+      console.log('='.repeat(80));
+      show('global = ', runner.global);
+      console.log('='.repeat(80));
+    }
+
+    return svg;
+  }
 }
 
-const source = read(args[0]);
+function main() {
+  const args = process.argv.slice(2);
 
-// Lexical analysis
-const lexer = new Lexer();
-const tokens = lexer.analyze(source);
+  if (args.length == 0) {
+    console.log('No input files.');
+    process.exit();
+  }
 
-show('tokens = ', tokens);
-console.log('=============================================================================================')
+  let verbose = false;
+  if (args.length >= 1 && args[1] == '--verbose') {
+    verbose = true;
+  }
 
-// Syntax analysis
-const parser = new Parser(tokens);
-const ast = parser.analyze();
+  const source = read(args[0]);
 
-show('ast = ', ast);
-console.log('=============================================================================================')
+  const chasoba = new Chasoba();
+  const svg = chasoba.render(source, verbose);
 
-// Run AST
-const runner = new Runner();
-const svg = runner.run(ast);
+  console.log(svg);
+}
 
-console.log('=============================================================================================')
-show('global = ', runner.global);
-
-console.log('=============================================================================================')
-console.log(svg);
+main();
