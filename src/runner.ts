@@ -164,7 +164,7 @@ export class Runner {
         y: args[1],
         width: args[2],
         height: args[3]
-      );
+      });
       this.canvas.addShape(rect);
       return rect;
     } else {
