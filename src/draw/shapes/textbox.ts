@@ -8,8 +8,8 @@ export interface TextBoxArgs {
   text: string;
   x: number;
   y: number;
-  padding: number;
-  margin: number;
+  padding?: number;
+  margin?: number;
   fontSize?: number;
   on?: Shape;
 }
@@ -42,14 +42,14 @@ export class TextBox extends Shape implements Attributes, HasAnchor {
     this.text = text;
     this.x = x;
     this.y = y;
-    this.padding = padding;
-    this.margin = margin;
+    this.padding = padding ?? 0;
+    this.margin = margin ?? 0;
     this.fontSize = fontSize ?? 24;
     this.on = on ?? new Rectangle({
       x: this.x,
       y: this.y,
-      width: this.fontSize * this.text.length,
-      height: this.fontSize
+      width: this.fontSize * this.text.length + this.padding * 2 + this.margin * 2,
+      height: this.fontSize + this.padding * 2 + this.margin * 2
     });
   }
 
