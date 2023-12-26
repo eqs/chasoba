@@ -1,19 +1,7 @@
-import * as svg from './svg';
-import { Vector, deg2rad } from '../math';
-import { error, Attributes } from '../utils';
-
-export abstract class Shape {
-  abstract render(): svg.SVGPrimitive;
-}
-
-export interface HasAnchor {
-  center(): Vector;
-  north(): Vector;
-  east(): Vector;
-  west(): Vector;
-  south(): Vector;
-  direction(dir: number): Vector;
-}
+import * as svg from '../svg';
+import { Shape, HasAnchor } from './base';
+import { Vector, deg2rad } from '../../math';
+import { error, Attributes } from '../../utils';
 
 export interface RectangleArgs {
   x: number;
