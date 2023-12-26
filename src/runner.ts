@@ -162,6 +162,9 @@ export class Runner {
       return args.getX();
     } else if (func == 'get_y') {
       return args.getY();
+    } else if (func == 'draw') {
+      this.canvas.addShape(args);
+      return args;
     } else if (func == 'rect') {
       let rect = new Rectangle({
         x: args[0],
@@ -169,7 +172,6 @@ export class Runner {
         width: args[2],
         height: args[3]
       });
-      this.canvas.addShape(rect);
       return rect;
     } else if (func == 'circle') {
       let circle = new Circle({
@@ -177,7 +179,6 @@ export class Runner {
         cy: args[1],
         r: args[2],
       });
-      this.canvas.addShape(circle);
       return circle;
     } else if (func == 'text') {
       let textbox = new TextBox({
@@ -185,7 +186,6 @@ export class Runner {
         x: args[1],
         y: args[2],
       });
-      this.canvas.addShape(textbox);
       return textbox;
     } else {
       error('ERROR: Unknown function func = ', func);
