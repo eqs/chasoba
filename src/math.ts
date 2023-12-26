@@ -18,6 +18,10 @@ export class Vector implements Attributes {
     this.y = y;
   }
 
+  static fromAngle(t: number) {
+    return new Vector(Math.cos(t), Math.sin(t));
+  }
+
   add(v: Vector): Vector {
     return new Vector(this.x + v.x, this.y + v.y);
   }

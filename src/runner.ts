@@ -7,6 +7,7 @@ import {
   Circle,
   TextBox,
   Line,
+  lineBetweenShapes
 } from './draw/shapes';
 
 export class Runner {
@@ -189,13 +190,18 @@ export class Runner {
       });
       return textbox;
     } else if (func == 'line') {
-      let line = new Line({
-        x1: args[0],
-        y1: args[1],
-        x2: args[2],
-        y2: args[3],
-      });
-      return line;
+      if (args.length == 4) {
+        return new Line({
+          x1: args[0],
+          y1: args[1],
+          x2: args[2],
+          y2: args[3],
+        });
+      } else if (args.length == 2) {
+        return lineBetweenShapes(args[0], args[1]);
+      } else {
+        error(`ERROR: Unknown definition of func = ${func}(${[args].flat().join(', ')})`);
+      }
     } else {
       error('ERROR: Unknown function func = ', func);
     }

@@ -1,7 +1,14 @@
 import * as svg from '../svg';
-import { Shape, HasLineAnchor } from './base';
-import { Vector, deg2rad } from '../../math';
+import { Shape, HasAnchor, HasLineAnchor } from './base';
+import { Vector, rad2deg } from '../../math';
 import { error, Attributes } from '../../utils';
+
+export function lineBetweenShapes(s1: HasAnchor, s2: HasAnchor) {
+  const dir = s2.center().sub(s1.center());
+  const start = s1.direction(rad2deg(dir.angle()));
+  const end = s2.direction(rad2deg(dir.angle() + Math.PI));
+  return new Line({ x1: start.x, y1: start.y, x2: end.x, y2: end.y});
+}
 
 export interface LineArgs {
   x1: number;
