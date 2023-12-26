@@ -24,6 +24,6 @@ export class Canvas {
     //   'Welcome to chasoba.js', 400.0, 400.0, 32.0
     // );
     let elements = this.shapes.map((s: Shape) => s.render());
-    return this.doc.render(new Group(elements));
+    return this.doc.render(new Group({ elements }));
   }
 }

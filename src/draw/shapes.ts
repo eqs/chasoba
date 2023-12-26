@@ -31,12 +31,12 @@ export class Rectangle extends Shape implements Attributes, HasAnchor {
   }
 
   render(): svg.SVGPrimitive {
-    return new svg.Rectangle(
-      this.x - this.width / 2,
-      this.y - this.height / 2,
-      this.width,
-      this.height
-    );
+    return new svg.Rectangle({
+      x: this.x - this.width / 2,
+      y: this.y - this.height / 2,
+      width: this.width,
+      height: this.height
+    });
   }
 
   center(): Vector {

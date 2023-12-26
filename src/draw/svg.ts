@@ -111,13 +111,20 @@ export interface SVGPrimitive {
   toSvgTag(): string;
 }
 
+export interface GroupArgs {
+  elements: SVGPrimitive[];
+}
+
 export class Group implements SVGPrimitive {
 
   elements: SVGPrimitive[];
   fillStyle: FillStyle;
   strokeStyle: StrokeStyle;
 
-  constructor(elements: SVGPrimitive[]) {
+  constructor(args: GroupArgs) {
+
+    const { elements } = { ...args };
+
     this.elements = elements;
     this.fillStyle = FillStyle.getDefault();
     this.strokeStyle = StrokeStyle.getDefault();
@@ -135,6 +142,17 @@ export class Group implements SVGPrimitive {
 }
 
 // https://www.w3.org/TR/SVG2/shapes.html#RectElement
+export interface RectangleArgs {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  rx?: number;
+  ry?: number;
+  fillStyle?: FillStyle;
+  strokeStyle?: StrokeStyle;
+}
+
 export class Rectangle implements SVGPrimitive {
 
   x: number;
@@ -146,15 +164,36 @@ export class Rectangle implements SVGPrimitive {
   fillStyle: FillStyle;
   strokeStyle: StrokeStyle;
 
-  constructor(x: number, y: number, width: number, height: number, rx?: number, ry?: number, fillStyle?: FillStyle, strokeStyle?: StrokeStyle) {
+  public static defaults = {
+    rx: 0.0,
+    ry: 0.0,
+    fillStyle: FillStyle.getDefault(),
+    strokeStyle: StrokeStyle.getDefault(),
+  };
+
+  constructor(args: RectangleArgs) {
+
+    const {
+      x,
+      y,
+      width,
+      height,
+      rx,
+      ry,
+      fillStyle,
+      strokeStyle,
+    } = {
+      ...args
+    };
+
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
-    this.rx = rx === undefined ? 0.0 : rx;
-    this.ry = ry === undefined ? 0.0 : ry;
-    this.fillStyle = fillStyle === undefined ? FillStyle.getDefault() : fillStyle;
-    this.strokeStyle = strokeStyle === undefined ? StrokeStyle.getDefault() : strokeStyle;
+    this.rx = rx ?? 0.0;
+    this.ry = ry ?? 0.0;
+    this.fillStyle = fillStyle ?? { ...Rectangle.defaults.fillStyle };
+    this.strokeStyle = strokeStyle ?? { ...Rectangle.defaults.strokeStyle };
   }
 
   toSvgTag(): string {
@@ -168,6 +207,14 @@ export class Rectangle implements SVGPrimitive {
 }
 
 // https://www.w3.org/TR/SVG2/shapes.html#CircleElement
+export interface CircleArgs {
+  cx: number;
+  cy: number;
+  r: number;
+  fillStyle?: FillStyle;
+  strokeStyle?: StrokeStyle;
+}
+
 export class Circle implements SVGPrimitive {
 
   cx: number;
@@ -176,12 +223,28 @@ export class Circle implements SVGPrimitive {
   fillStyle: FillStyle;
   strokeStyle: StrokeStyle;
 
-  constructor(cx: number, cy: number, r: number, fillStyle?: FillStyle, strokeStyle?: StrokeStyle) {
+  public static defaults = {
+    fillStyle: FillStyle.getDefault(),
+    strokeStyle: StrokeStyle.getDefault(),
+  };
+
+  constructor(args: CircleArgs) {
+
+    const {
+      cx,
+      cy,
+      r,
+      fillStyle,
+      strokeStyle,
+    } = {
+      ...args
+    };
+
     this.cx = cx;
     this.cy = cy;
     this.r = r;
-    this.fillStyle = fillStyle === undefined ? FillStyle.getDefault() : fillStyle;
-    this.strokeStyle = strokeStyle === undefined ? StrokeStyle.getDefault() : strokeStyle;
+    this.fillStyle = fillStyle ?? { ...Circle.defaults.fillStyle };
+    this.strokeStyle = strokeStyle ?? { ...Circle.defaults.strokeStyle };
   }
 
   toSvgTag(): string {
@@ -195,6 +258,15 @@ export class Circle implements SVGPrimitive {
 }
 
 // https://www.w3.org/TR/SVG2/shapes.html#EllipseElement
+export interface EllipseArgs {
+  cx: number;
+  cy: number;
+  rx: number;
+  ry: number;
+  fillStyle?: FillStyle;
+  strokeStyle?: StrokeStyle;
+}
+
 export class Ellipse implements SVGPrimitive {
 
   cx: number;
@@ -204,13 +276,30 @@ export class Ellipse implements SVGPrimitive {
   fillStyle: FillStyle;
   strokeStyle: StrokeStyle;
 
-  constructor(cx: number, cy: number, rx: number, ry: number, fillStyle?: FillStyle, strokeStyle?: StrokeStyle) {
+  public static defaults = {
+    fillStyle: FillStyle.getDefault(),
+    strokeStyle: StrokeStyle.getDefault(),
+  };
+
+  constructor(args: EllipseArgs) {
+
+    const {
+      cx,
+      cy,
+      rx,
+      ry,
+      fillStyle,
+      strokeStyle,
+    } = {
+      ...args
+    };
+
     this.cx = cx;
     this.cy = cy;
     this.rx = rx;
     this.ry = ry;
-    this.fillStyle = fillStyle === undefined ? FillStyle.getDefault() : fillStyle;
-    this.strokeStyle = strokeStyle === undefined ? StrokeStyle.getDefault() : strokeStyle;
+    this.fillStyle = fillStyle ?? { ...Ellipse.defaults.fillStyle };
+    this.strokeStyle = strokeStyle ?? { ...Ellipse.defaults.strokeStyle };
   }
 
   toSvgTag(): string {
@@ -221,6 +310,21 @@ export class Ellipse implements SVGPrimitive {
     s += ' />\n';
     return s;
   }
+}
+
+export interface TextArgs {
+  text: string;
+  x: number;
+  y: number;
+  fontSize: number;
+  fillStyle?: FillStyle;
+  strokeStyle?: StrokeStyle;
+  fontFamily?: string;
+  textAlign?: string;
+  dominantBaseline?: string;
+  shapeInside?: string;
+  shapeMargin?: number;
+  shapePadding?: number;
 }
 
 // https://www.w3.org/TR/SVG2/text.html
@@ -235,25 +339,55 @@ export class TextElement implements SVGPrimitive {
   fontFamily: string;
   textAlign: string;
   dominantBaseline: string;
-  shapeInside?: string;
+  shapeInside: string;
   shapeMargin: number;
   shapePadding: number;
 
-  constructor(text: string, x: number, y: number, fontSize: number, fillStyle?: FillStyle, strokeStyle?: StrokeStyle) {
+  public static defaults = {
+    fillStyle: FillStyle.getDefault(),
+    strokeStyle: StrokeStyle.getDefault(),
+    fontFamily: 'Verdana',
+    textAlign: 'center',
+    dominantBaseline: 'central',
+    shapeInside: '',
+    shapeMargin: 0,
+    shapePadding: 0,
+  };
+
+  constructor(args: TextArgs) {
+
+    const {
+      text,
+      x,
+      y,
+      fontSize,
+      fillStyle,
+      strokeStyle,
+      fontFamily,
+      textAlign,
+      dominantBaseline,
+      shapeInside,
+      shapeMargin,
+      shapePadding,
+    } = {
+      ...args
+    };
+
     this.text = text;
     this.x = x;
     this.y = y;
     this.fontSize = fontSize;
-    this.fillStyle = fillStyle === undefined ? FillStyle.getDefault() : fillStyle;
-    this.strokeStyle = strokeStyle === undefined ? StrokeStyle.getDefault() : strokeStyle;
 
-    this.fontFamily = 'Verdana'
-    this.textAlign = 'center'
-    this.dominantBaseline = 'central'
+    this.fillStyle = fillStyle ?? { ...TextElement.defaults.fillStyle };
+    this.strokeStyle = strokeStyle ?? { ...TextElement.defaults.strokeStyle };
 
-    this.shapeInside = undefined;
-    this.shapeMargin = 0;
-    this.shapePadding = 0;
+    this.fontFamily = fontFamily ?? TextElement.defaults.fontFamily;
+    this.textAlign = textAlign ?? TextElement.defaults.textAlign;
+    this.dominantBaseline = dominantBaseline ?? TextElement.defaults.dominantBaseline;
+
+    this.shapeInside = shapeInside ?? TextElement.defaults.shapeInside;
+    this.shapeMargin = shapeMargin ?? TextElement.defaults.shapeMargin;
+    this.shapePadding = shapePadding ?? TextElement.defaults.shapePadding;
   }
 
   toSvgTag(): string {
@@ -263,7 +397,7 @@ export class TextElement implements SVGPrimitive {
     s += ` stroke-width="${this.strokeStyle.width}"`
 
     s += ` style="`
-    if (this.shapeInside !== undefined) {
+    if (this.shapeInside.length != 0) {  // if not empty string
       s += ` shape-inside: ${this.shapeInside};`;
       s += ` shape-margin: ${this.shapeMargin}px;`
       s += ` shape-padding: ${this.shapePadding}px;`
@@ -279,6 +413,15 @@ export class TextElement implements SVGPrimitive {
 }
 
 // https://www.w3.org/TR/SVG2/shapes.html#LineElement
+export interface LineArgs {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+  fillStyle?: FillStyle;
+  strokeStyle?: StrokeStyle;
+}
+
 export class Line implements SVGPrimitive {
 
   x1: number;
@@ -288,14 +431,30 @@ export class Line implements SVGPrimitive {
   fillStyle: FillStyle;
   strokeStyle: StrokeStyle;
 
-  constructor(x1: number, y1: number, x2: number, y2: number, strokeStyle?: StrokeStyle) {
+  public static defaults = {
+    fillStyle: FillStyle.getDefault(),
+    strokeStyle: StrokeStyle.getDefault(),
+  };
+
+  constructor(args: LineArgs) {
+    const {
+      x1,
+      y1,
+      x2,
+      y2,
+      fillStyle,
+      strokeStyle,
+    } = {
+      ...args
+    };
+
     this.x1 = x1;
     this.y1 = y1;
     this.x2 = x2;
     this.y2 = y2;
-    this.strokeStyle = strokeStyle === undefined ? StrokeStyle.getDefault() : strokeStyle;
 
-    this.fillStyle = FillStyle.getDefault();
+    this.fillStyle = fillStyle ?? { ...Line.defaults.fillStyle };
+    this.strokeStyle = strokeStyle ?? { ...Line.defaults.strokeStyle };
   }
 
   toSvgTag(): string {
@@ -308,16 +467,36 @@ export class Line implements SVGPrimitive {
   }
 }
 
+export interface PolylineArgs {
+  points: Point[];
+  fillStyle?: FillStyle;
+  strokeStyle?: StrokeStyle;
+}
+
 export class Polyline implements SVGPrimitive {
 
   points: Point[];
   fillStyle: FillStyle;
   strokeStyle: StrokeStyle;
 
-  constructor(points: Point[], fillStyle?: FillStyle, strokeStyle?: StrokeStyle) {
+  public static defaults = {
+    fillStyle: FillStyle.getDefault(),
+    strokeStyle: StrokeStyle.getDefault(),
+  };
+
+  constructor(args: PolylineArgs) {
+
+    const {
+      points,
+      fillStyle,
+      strokeStyle,
+    } = {
+      ...args
+    };
+
     this.points = points;
-    this.fillStyle = fillStyle === undefined ? FillStyle.getDefault() : fillStyle;
-    this.strokeStyle = strokeStyle === undefined ? StrokeStyle.getDefault() : strokeStyle;
+    this.fillStyle = fillStyle ?? { ...Polyline.defaults.fillStyle };
+    this.strokeStyle = strokeStyle ?? { ...Polyline.defaults.strokeStyle };
   }
 
   toSvgTag(): string {
@@ -333,16 +512,36 @@ export class Polyline implements SVGPrimitive {
 }
 
 // https://www.w3.org/TR/SVG2/shapes.html#PolygonElement
+export interface PolygonArgs {
+  points: Point[];
+  fillStyle?: FillStyle;
+  strokeStyle?: StrokeStyle;
+}
+
 export class Polygon implements SVGPrimitive {
 
   points: Point[];
   fillStyle: FillStyle;
   strokeStyle: StrokeStyle;
 
-  constructor(points: Point[], fillStyle?: FillStyle, strokeStyle?: StrokeStyle) {
+  public static defaults = {
+    fillStyle: FillStyle.getDefault(),
+    strokeStyle: StrokeStyle.getDefault(),
+  };
+
+  constructor(args: PolygonArgs) {
+
+    const {
+      points,
+      fillStyle,
+      strokeStyle,
+    } = {
+      ...args
+    };
+
     this.points = points;
-    this.fillStyle = fillStyle === undefined ? FillStyle.getDefault() : fillStyle;
-    this.strokeStyle = strokeStyle === undefined ? StrokeStyle.getDefault() : strokeStyle;
+    this.fillStyle = fillStyle ?? { ...Polygon.defaults.fillStyle };
+    this.strokeStyle = strokeStyle ?? { ...Polygon.defaults.strokeStyle };
   }
 
   toSvgTag(): string {
