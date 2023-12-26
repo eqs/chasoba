@@ -233,8 +233,11 @@ export class TextElement implements SVGPrimitive {
   fillStyle: FillStyle;
   strokeStyle: StrokeStyle;
   fontFamily: string;
-  textAnchor: string;
+  textAlign: string;
   dominantBaseline: string;
+  shapeInside?: string;
+  shapeMargin: number;
+  shapePadding: number;
 
   constructor(text: string, x: number, y: number, fontSize: number, fillStyle?: FillStyle, strokeStyle?: StrokeStyle) {
     this.text = text;
@@ -245,15 +248,29 @@ export class TextElement implements SVGPrimitive {
     this.strokeStyle = strokeStyle === undefined ? StrokeStyle.getDefault() : strokeStyle;
 
     this.fontFamily = 'Verdana'
-    this.textAnchor = 'middle'
+    this.textAlign = 'center'
     this.dominantBaseline = 'central'
+
+    this.shapeInside = undefined;
+    this.shapeMargin = 0;
+    this.shapePadding = 0;
   }
 
   toSvgTag(): string {
-    let s = `<text x="${this.x}" y="${this.y}" font-size="${this.fontSize}" font-family="${this.fontFamily}" text-anchor="${this.textAnchor}" dominant-baseline="${this.dominantBaseline}" `;
+    let s = `<text x="${this.x}" y="${this.y}" font-size="${this.fontSize}" font-family="${this.fontFamily}" dominant-baseline="${this.dominantBaseline}" `;
     s += ` fill="${this.fillStyle.color.getRGB8()}" stroke="${this.strokeStyle.color.getRGB8()}"`;
     s += ` fill-opacity="${this.fillStyle.color.getOpacity()}" stroke-opacity="${this.strokeStyle.color.getOpacity()}"`;
     s += ` stroke-width="${this.strokeStyle.width}"`
+
+    s += ` style="`
+    if (this.shapeInside !== undefined) {
+      s += ` shape-inside: ${this.shapeInside};`;
+      s += ` shape-margin: ${this.shapeMargin}px;`
+      s += ` shape-padding: ${this.shapePadding}px;`
+    }
+    s += ` text-align: ${this.textAlign};`
+    s += `"`
+
     s += ' >\n';
     s += this.text + '\n';
     s += '</text>\n';
