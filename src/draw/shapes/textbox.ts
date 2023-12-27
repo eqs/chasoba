@@ -54,8 +54,11 @@ export class TextBox extends Shape implements Attributes, HasAnchor {
   }
 
   render(): svg.SVGPrimitive {
+    let on = this.on.render();
+    on.fillStyle = new svg.FillStyle(new svg.Color(0.0, 0.0, 0.0, 0.0));
+    on.strokeStyle = new svg.StrokeStyle(new svg.Color(0.0, 0.0, 0.0, 0.0), 1);
     let elements = [
-      this.on.render(),
+      on,
       new svg.TextElement({
         text: this.text,
         x: this.x,
