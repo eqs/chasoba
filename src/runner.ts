@@ -169,20 +169,39 @@ export class Runner {
       this.canvas.addShape(args);
       return args;
     } else if (func == 'rect') {
-      let rect = new Rectangle({
-        x: args[0],
-        y: args[1],
-        width: args[2],
-        height: args[3]
-      });
-      return rect;
+      if (args.length == 4) {
+        return new Rectangle({
+          x: args[0],
+          y: args[1],
+          width: args[2],
+          height: args[3]
+        });
+      } else if (args.length == 3 && args[0] instanceof Vector) {
+        return new Rectangle({
+          x: args[0].x,
+          y: args[0].y,
+          width: args[1],
+          height: args[2]
+        });
+      } else {
+        error(`ERROR: Unknown definition of func = ${func}(${[args].flat().join(', ')})`);
+      }
     } else if (func == 'circle') {
-      let circle = new Circle({
-        cx: args[0],
-        cy: args[1],
-        r: args[2],
-      });
-      return circle;
+      if (args.length == 3) {
+        return new Circle({
+          cx: args[0],
+          cy: args[1],
+          r: args[2],
+        });
+      } else if (args.length == 2 && args[0] instanceof Vector) {
+        return new Circle({
+          cx: args[0].x,
+          cy: args[0].y,
+          r: args[1],
+        });
+      } else {
+        error(`ERROR: Unknown definition of func = ${func}(${[args].flat().join(', ')})`);
+      }
     } else if (func == 'text') {
       let textbox = new TextBox({
         text: args[0],
