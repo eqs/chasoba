@@ -98,7 +98,7 @@ export class Runner {
       } else {
         error(`ERROR: Unsupported operand types for ${a.op}: '${left}' and '${right}'`);
       }
-    } else if (a.op == '-|') {
+    } else if (a.op == '|-') {
       const left = this.runNode(a.left);
       const right = this.runNode(a.right);
       if (left instanceof Vector && right instanceof Vector) {
@@ -106,7 +106,7 @@ export class Runner {
       } else {
         error(`ERROR: Unsupported operand types for ${a.op}: '${left}' and '${right}'`);
       }
-    } else if (a.op == '|-') {
+    } else if (a.op == '-|') {
       const left = this.runNode(a.left);
       const right = this.runNode(a.right);
       if (left instanceof Vector && right instanceof Vector) {
