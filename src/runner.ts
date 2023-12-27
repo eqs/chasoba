@@ -7,7 +7,8 @@ import {
   Circle,
   TextBox,
   Line,
-  lineBetweenShapes
+  lineBetweenShapes,
+  BezierCurve
 } from './draw/shapes';
 
 export class Runner {
@@ -198,7 +199,26 @@ export class Runner {
           y2: args[3],
         });
       } else if (args.length == 2) {
-        return lineBetweenShapes(args[0], args[1]);
+        if (args[0] instanceof Vector && args[1] instanceof Vector) {
+          return new Line({
+            x1: args[0].x,
+            y1: args[0].y,
+            x2: args[1].x,
+            y2: args[1].y,
+          });
+        } else {
+          return lineBetweenShapes(args[0], args[1]);
+        }
+      } else {
+        error(`ERROR: Unknown definition of func = ${func}(${[args].flat().join(', ')})`);
+      }
+    } else if (func == 'bezier') {
+      if (args.length == 3) {
+        return new BezierCurve({
+          p0: args[0],
+          p1: args[1],
+          p2: args[2],
+        });
       } else {
         error(`ERROR: Unknown definition of func = ${func}(${[args].flat().join(', ')})`);
       }

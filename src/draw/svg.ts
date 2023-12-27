@@ -615,7 +615,7 @@ export class BezierCurve implements SVGPrimitive {
   strokeStyle: StrokeStyle;
 
   public static defaults = {
-    fillStyle: FillStyle.getDefault(),
+    fillStyle: new FillStyle(new Color(0.0, 0.0, 0.0, 0.0)),
     strokeStyle: StrokeStyle.getDefault(),
   };
 
@@ -636,8 +636,8 @@ export class BezierCurve implements SVGPrimitive {
     this.p0 = p0;
     this.p1 = p1;
     this.p2 = p2;
-    this.fillStyle = fillStyle ?? { ...Polygon.defaults.fillStyle };
-    this.strokeStyle = strokeStyle ?? { ...Polygon.defaults.strokeStyle };
+    this.fillStyle = fillStyle ?? { ...BezierCurve.defaults.fillStyle };
+    this.strokeStyle = strokeStyle ?? { ...BezierCurve.defaults.strokeStyle };
   }
 
   toSvgTag(): string {

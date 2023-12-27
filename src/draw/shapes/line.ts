@@ -1,5 +1,6 @@
 import * as svg from '../svg';
 import { Shape, HasAnchor, HasLineAnchor } from './base';
+import { BezierCurve } from './bezier';
 import { Vector, rad2deg } from '../../math';
 import { error, Attributes } from '../../utils';
 
@@ -66,6 +67,30 @@ export class Line extends Shape implements Attributes, HasLineAnchor {
     return this.start().add(n.mul(mag * t));
   }
 
+  bend(sign: number): Shape {
+    const dir = this.end().sub(this.start());
+    const mag = dir.mag();
+    const bendAngle = dir.angle() + sign * Math.PI / 2;
+    const bendStep = new Vector(
+      (mag * 0.5) * Math.cos(bendAngle),
+      (mag * 0.5) * Math.sin(bendAngle),
+    );
+    const center = this.internalDivision(0.5);
+    return new BezierCurve({
+      p0: this.start(),
+      p1: center.add(bendStep),
+      p2: this.end(),
+    });
+  }
+
+  bendLeft(): Shape {
+    return this.bend(-1);
+  }
+
+  bendRight(): Shape {
+    return this.bend(1);
+  }
+
   getAttribute(attr: any) {
     if (attr == 'x1') {
       return this.x1;
@@ -75,6 +100,10 @@ export class Line extends Shape implements Attributes, HasLineAnchor {
       return this.x2;
     } else if (attr == 'y2') {
       return this.y2;
+    } else if (attr == 'bend_left') {
+      return this.bendLeft();
+    } else if (attr == 'bend_right') {
+      return this.bendRight();
     } else if (attr == 'start') {
       return this.start();
     } else if (attr == 'end') {
