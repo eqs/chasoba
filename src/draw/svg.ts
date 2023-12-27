@@ -593,3 +593,62 @@ export class Polygon implements SVGPrimitive {
     return s;
   }
 }
+
+// https://www.w3.org/TR/svg-paths/
+// <path d="M 50 200 Q 75 150 100 200" fill="green" stroke="red" />
+export interface BezierCurveArgs {
+  id?: string;
+  p0: Point;
+  p1: Point;
+  p2: Point;
+  fillStyle?: FillStyle;
+  strokeStyle?: StrokeStyle;
+}
+
+export class BezierCurve implements SVGPrimitive {
+
+  id: string;
+  p0: Point;
+  p1: Point;
+  p2: Point;
+  fillStyle: FillStyle;
+  strokeStyle: StrokeStyle;
+
+  public static defaults = {
+    fillStyle: FillStyle.getDefault(),
+    strokeStyle: StrokeStyle.getDefault(),
+  };
+
+  constructor(args: BezierCurveArgs) {
+
+    const {
+      id,
+      p0,
+      p1,
+      p2,
+      fillStyle,
+      strokeStyle,
+    } = {
+      ...args
+    };
+
+    this.id = id ?? uuidv4();
+    this.p0 = p0;
+    this.p1 = p1;
+    this.p2 = p2;
+    this.fillStyle = fillStyle ?? { ...Polygon.defaults.fillStyle };
+    this.strokeStyle = strokeStyle ?? { ...Polygon.defaults.strokeStyle };
+  }
+
+  toSvgTag(): string {
+    let s = `<path id="${this.id}"`;
+    s += ` d="M ${this.p0.x} ${this.p0.y} Q`;
+    s += ` ${this.p1.x} ${this.p1.y} ${this.p2.x} ${this.p2.y}"`
+    s += ` fill="${this.fillStyle.color.getRGB8()}" stroke="${this.strokeStyle.color.getRGB8()}"`;
+    s += ` fill-opacity="${this.fillStyle.color.getOpacity()}" stroke-opacity="${this.strokeStyle.color.getOpacity()}"`;
+    s += ` stroke-width="${this.strokeStyle.width}"`
+    s += ' />\n';
+    return s;
+  }
+}
+

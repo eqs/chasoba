@@ -13,6 +13,7 @@ import {
   Line,
   Polyline,
   Polygon,
+  BezierCurve,
 } from '@/draw/svg';
 
 test('svg-group', () => {
@@ -114,6 +115,14 @@ test('svg-group', () => {
     ],
     fillStyle: new FillStyle(new Color(0.0, 1.0, 0.0, 1.0)),
     strokeStyle: new StrokeStyle(new Color(0.0, 0.0, 1.0, 1.0), 10.0)
+  }));
+
+  elements.push(new BezierCurve({
+    p0: new Point(100.0, 350.0),
+    p1: new Point(200.0, 250.0),
+    p2: new Point(300.0, 350.0),
+    fillStyle: new FillStyle(new Color(0.0, 0.0, 0.0, 0.0)),
+    strokeStyle: new StrokeStyle(new Color(1.0, 0.5, 1.0, 1.0), 5.0)
   }));
 
   // for (let k = 0; k < 32; k++) {
