@@ -203,12 +203,21 @@ export class Runner {
         error(`ERROR: Unknown definition of func = ${func}(${[args].flat().join(', ')})`);
       }
     } else if (func == 'text') {
-      let textbox = new TextBox({
-        text: args[0],
-        x: args[1],
-        y: args[2],
-      });
-      return textbox;
+      if (args.length == 3) {
+        return new TextBox({
+          text: args[0],
+          x: args[1],
+          y: args[2],
+        });
+      } else if (args.length == 2 && args[1] instanceof Vector) {
+        return new TextBox({
+          text: args[0],
+          x: args[1].x,
+          y: args[1].y,
+        });
+      } else {
+        error(`ERROR: Unknown definition of func = ${func}(${[args].flat().join(', ')})`);
+      }
     } else if (func == 'line') {
       if (args.length == 4) {
         return new Line({
