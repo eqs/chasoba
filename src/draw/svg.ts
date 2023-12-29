@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import * as ah from './arrowhead';
 
 export type LineCap = 'Butt' | 'Round';
 export type LineJoin = 'Miter' | 'Round' | 'Bevel';
@@ -16,6 +17,10 @@ export class SVGDocument {
   render(element: SVGPrimitive): string {
     let s = `<?xml version="1.0" standalone="no" ?>
 <svg width="${this.width}" height="${this.height}" xmlns="http://www.w3.org/2000/svg" version="2.0">\n`;
+    s += `<defs>\n`;
+    s += new ah.LatexHead({}).render();
+    s += new ah.CircleHead({}).render();
+    s += `</defs>\n`;
     s += element.toSvgTag();
     s += '</svg>';
 
@@ -445,6 +450,8 @@ export interface LineArgs {
   y1: number;
   x2: number;
   y2: number;
+  markerStartId?: string;
+  markerEndId?: string;
   fillStyle?: FillStyle;
   strokeStyle?: StrokeStyle;
 }
@@ -456,10 +463,14 @@ export class Line implements SVGPrimitive {
   y1: number;
   x2: number;
   y2: number;
+  markerStartId: string;
+  markerEndId: string;
   fillStyle: FillStyle;
   strokeStyle: StrokeStyle;
 
   public static defaults = {
+    markerStartId: '',
+    markerEndId: '',
     fillStyle: FillStyle.getDefault(),
     strokeStyle: StrokeStyle.getDefault(),
   };
@@ -471,6 +482,8 @@ export class Line implements SVGPrimitive {
       y1,
       x2,
       y2,
+      markerStartId,
+      markerEndId,
       fillStyle,
       strokeStyle,
     } = {
@@ -483,6 +496,8 @@ export class Line implements SVGPrimitive {
     this.x2 = x2;
     this.y2 = y2;
 
+    this.markerStartId = markerStartId ?? { ...Line.defaults.markerStartId };
+    this.markerEndId = markerEndId ?? { ...Line.defaults.markerEndId };
     this.fillStyle = fillStyle ?? { ...Line.defaults.fillStyle };
     this.strokeStyle = strokeStyle ?? { ...Line.defaults.strokeStyle };
   }
@@ -492,6 +507,15 @@ export class Line implements SVGPrimitive {
     s += ` stroke="${this.strokeStyle.color.getRGB8()}"`;
     s += ` stroke-opacity="${this.strokeStyle.color.getOpacity()}"`;
     s += ` stroke-width="${this.strokeStyle.width}"`
+
+    if (this.markerStartId != '') {
+      s += ` marker-start="url(#${this.markerStartId})"`;
+    }
+
+    if (this.markerEndId != '') {
+      s += ` marker-end="url(#${this.markerEndId})"`;
+    }
+
     s += ' />\n';
     return s;
   }
@@ -500,6 +524,8 @@ export class Line implements SVGPrimitive {
 export interface PolylineArgs {
   id?: string;
   points: Point[];
+  markerStartId?: string;
+  markerEndId?: string;
   fillStyle?: FillStyle;
   strokeStyle?: StrokeStyle;
 }
@@ -508,10 +534,14 @@ export class Polyline implements SVGPrimitive {
 
   id: string;
   points: Point[];
+  markerStartId: string;
+  markerEndId: string;
   fillStyle: FillStyle;
   strokeStyle: StrokeStyle;
 
   public static defaults = {
+    markerStartId: '',
+    markerEndId: '',
     fillStyle: FillStyle.getDefault(),
     strokeStyle: StrokeStyle.getDefault(),
   };
@@ -529,6 +559,8 @@ export class Polyline implements SVGPrimitive {
 
     this.id = id ?? uuidv4();
     this.points = points;
+    this.markerStartId = markerStartId ?? { ...Polyline.defaults.markerStartId };
+    this.markerEndId = markerEndId ?? { ...Polyline.defaults.markerEndId };
     this.fillStyle = fillStyle ?? { ...Polyline.defaults.fillStyle };
     this.strokeStyle = strokeStyle ?? { ...Polyline.defaults.strokeStyle };
   }
@@ -540,6 +572,15 @@ export class Polyline implements SVGPrimitive {
     s += ` fill="${this.fillStyle.color.getRGB8()}" stroke="${this.strokeStyle.color.getRGB8()}"`;
     s += ` fill-opacity="${this.fillStyle.color.getOpacity()}" stroke-opacity="${this.strokeStyle.color.getOpacity()}"`;
     s += ` stroke-width="${this.strokeStyle.width}"`
+
+    if (this.markerStartId != '') {
+      s += ` marker-start="url(#${this.markerStartId})"`;
+    }
+
+    if (this.markerEndId != '') {
+      s += ` marker-end="url(#${this.markerEndId})"`;
+    }
+
     s += ' />\n';
     return s;
   }
@@ -601,6 +642,8 @@ export interface BezierCurveArgs {
   p0: Point;
   p1: Point;
   p2: Point;
+  markerStartId?: string;
+  markerEndId?: string;
   fillStyle?: FillStyle;
   strokeStyle?: StrokeStyle;
 }
@@ -611,10 +654,14 @@ export class BezierCurve implements SVGPrimitive {
   p0: Point;
   p1: Point;
   p2: Point;
+  markerStartId: string;
+  markerEndId: string;
   fillStyle: FillStyle;
   strokeStyle: StrokeStyle;
 
   public static defaults = {
+    markerStartId: '',
+    markerEndId: '',
     fillStyle: new FillStyle(new Color(0.0, 0.0, 0.0, 0.0)),
     strokeStyle: StrokeStyle.getDefault(),
   };
@@ -636,6 +683,9 @@ export class BezierCurve implements SVGPrimitive {
     this.p0 = p0;
     this.p1 = p1;
     this.p2 = p2;
+
+    this.markerStartId = markerStartId ?? { ...BezierCurve.defaults.markerStartId };
+    this.markerEndId = markerEndId ?? { ...BezierCurve.defaults.markerEndId };
     this.fillStyle = fillStyle ?? { ...BezierCurve.defaults.fillStyle };
     this.strokeStyle = strokeStyle ?? { ...BezierCurve.defaults.strokeStyle };
   }
@@ -647,6 +697,15 @@ export class BezierCurve implements SVGPrimitive {
     s += ` fill="${this.fillStyle.color.getRGB8()}" stroke="${this.strokeStyle.color.getRGB8()}"`;
     s += ` fill-opacity="${this.fillStyle.color.getOpacity()}" stroke-opacity="${this.strokeStyle.color.getOpacity()}"`;
     s += ` stroke-width="${this.strokeStyle.width}"`
+
+    if (this.markerStartId != '') {
+      s += ` marker-start="url(#${this.markerStartId})"`;
+    }
+
+    if (this.markerEndId != '') {
+      s += ` marker-end="url(#${this.markerEndId})"`;
+    }
+
     s += ' />\n';
     return s;
   }
