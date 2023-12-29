@@ -2,10 +2,10 @@
   "name": "chasoba",
   "version": "0.0.1",
   "description": "chasoba lang",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc --project .",
-    "dev": "tsc --project . && node build/index.js",
+    "dev": "tsc --project . && node dist/index.js",
     "test": "jest"
   },
   "author": "eqs",

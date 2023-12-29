@@ -2,9 +2,10 @@
   "compilerOptions": {
     "baseUrl": "./",
     "rootDir": "./src",
-    "outDir": "./build",
+    "outDir": "./dist",
     "target": "ES5",
     "module": "CommonJS",
+    "declaration": true,
     "strict": true,
     "noImplicitThis": false,
     "esModuleInterop": true,
