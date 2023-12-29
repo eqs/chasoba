@@ -26,7 +26,7 @@ export function show(msg: string, obj: any) {
 
 export function error(...msgs: string[]) {
   console.log(msgs.join(''));
-  process.exit();
+  process.exit(1);
 }
 
 // if tokens[0] is included cs, return it and execute shift()

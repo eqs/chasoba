@@ -46,7 +46,7 @@ function main() {
 
   if (args.length == 0) {
     console.log('No input files.');
-    process.exit();
+    process.exit(1);
   }
 
   let verbose = false;
