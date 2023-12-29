@@ -1,3 +1,5 @@
+size(400, 400);
+
 c1 = circle(100, 100, 32);
 c2 = circle(300, 250, 32);
 c3 = circle(c1.center |- c2.center, 32);

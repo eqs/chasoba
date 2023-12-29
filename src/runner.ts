@@ -141,6 +141,10 @@ export class Runner {
       // 引数配列を連結する
       const msg = [args].flat().map((x: any) => `${x}`).join('');
       console.log(msg);
+    } else if (func == 'size') {
+      if (args.length == 2) {
+        this.canvas.setSize(args[0], args[1]);
+      }
     } else if (func == 'sin') {
       return Math.sin(args);
     } else if (func == 'cos') {
