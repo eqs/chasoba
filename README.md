@@ -1,0 +1,26 @@
+# Chasoba: JavaScript based drawing language
+
+Source:
+
+```
+size(400, 400);
+
+c1 = circle(100, 100, 32);
+c2 = circle(300, 250, 32);
+c3 = circle(c1.center |- c2.center, 32);
+
+draw(c1);
+draw(c2);
+draw(c3);
+
+draw(line(c1.east, c2.north).bend_left);
+draw(line(c1.south, c3.north));
+draw(line(c3.east, c2.west));
+draw(text("x", c1.center));
+draw(text("y", c2.center));
+draw(text("z", c3.center));
+```
+
+Output:
+
+![fig](figs/out.svg)
