@@ -105,13 +105,23 @@ export class StrokeStyle {
   }
 }
 
-export interface SVGPrimitive {
+export abstract class SVGPrimitive {
 
   id: string;
   fillStyle: FillStyle;
   strokeStyle: StrokeStyle;
 
-  toSvgTag(): string;
+  constructor() {
+    this.id = '';
+    this.fillStyle = new FillStyle(new Color(1, 1, 1, 1));
+    this.strokeStyle = new StrokeStyle(new Color(0, 0, 0, 1), 1.0);
+  }
+
+  abstract toSvgTag(): string;
+  setStyle(fillStyle: FillStyle, strokeStyle: StrokeStyle) {
+    this.fillStyle = fillStyle;
+    this.strokeStyle = strokeStyle;
+  }
 }
 
 export interface GroupArgs {
@@ -119,7 +129,7 @@ export interface GroupArgs {
   elements: SVGPrimitive[];
 }
 
-export class Group implements SVGPrimitive {
+export class Group extends SVGPrimitive {
 
   id: string;
   elements: SVGPrimitive[];
@@ -127,6 +137,7 @@ export class Group implements SVGPrimitive {
   strokeStyle: StrokeStyle;
 
   constructor(args: GroupArgs) {
+    super();
 
     const { id, elements } = { ...args };
 
@@ -160,7 +171,7 @@ export interface RectangleArgs {
   strokeStyle?: StrokeStyle;
 }
 
-export class Rectangle implements SVGPrimitive {
+export class Rectangle extends SVGPrimitive {
 
   id: string;
   x: number;
@@ -180,6 +191,7 @@ export class Rectangle implements SVGPrimitive {
   };
 
   constructor(args: RectangleArgs) {
+    super();
 
     const {
       id,
@@ -226,7 +238,7 @@ export interface CircleArgs {
   strokeStyle?: StrokeStyle;
 }
 
-export class Circle implements SVGPrimitive {
+export class Circle extends SVGPrimitive {
 
   id: string;
   cx: number;
@@ -241,6 +253,7 @@ export class Circle implements SVGPrimitive {
   };
 
   constructor(args: CircleArgs) {
+    super();
 
     const {
       id,
@@ -282,7 +295,7 @@ export interface EllipseArgs {
   strokeStyle?: StrokeStyle;
 }
 
-export class Ellipse implements SVGPrimitive {
+export class Ellipse extends SVGPrimitive {
 
   id: string;
   cx: number;
@@ -298,6 +311,7 @@ export class Ellipse implements SVGPrimitive {
   };
 
   constructor(args: EllipseArgs) {
+    super();
 
     const {
       id,
@@ -348,7 +362,7 @@ export interface TextArgs {
 }
 
 // https://www.w3.org/TR/SVG2/text.html
-export class TextElement implements SVGPrimitive {
+export class TextElement extends SVGPrimitive {
 
   id: string;
   text: string;
@@ -378,6 +392,7 @@ export class TextElement implements SVGPrimitive {
   };
 
   constructor(args: TextArgs) {
+    super();
 
     const {
       id,
@@ -449,7 +464,7 @@ export interface LineArgs {
   strokeStyle?: StrokeStyle;
 }
 
-export class Line implements SVGPrimitive {
+export class Line extends SVGPrimitive {
 
   id: string;
   x1: number;
@@ -465,6 +480,7 @@ export class Line implements SVGPrimitive {
   };
 
   constructor(args: LineArgs) {
+    super();
     const {
       id,
       x1,
@@ -504,7 +520,7 @@ export interface PolylineArgs {
   strokeStyle?: StrokeStyle;
 }
 
-export class Polyline implements SVGPrimitive {
+export class Polyline extends SVGPrimitive {
 
   id: string;
   points: Point[];
@@ -517,6 +533,7 @@ export class Polyline implements SVGPrimitive {
   };
 
   constructor(args: PolylineArgs) {
+    super();
 
     const {
       id,
@@ -553,7 +570,7 @@ export interface PolygonArgs {
   strokeStyle?: StrokeStyle;
 }
 
-export class Polygon implements SVGPrimitive {
+export class Polygon extends SVGPrimitive {
 
   id: string;
   points: Point[];
@@ -566,6 +583,7 @@ export class Polygon implements SVGPrimitive {
   };
 
   constructor(args: PolygonArgs) {
+    super();
 
     const {
       id,
@@ -605,7 +623,7 @@ export interface BezierCurveArgs {
   strokeStyle?: StrokeStyle;
 }
 
-export class BezierCurve implements SVGPrimitive {
+export class BezierCurve extends SVGPrimitive {
 
   id: string;
   p0: Point;
@@ -620,6 +638,7 @@ export class BezierCurve implements SVGPrimitive {
   };
 
   constructor(args: BezierCurveArgs) {
+    super();
 
     const {
       id,
