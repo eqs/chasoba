@@ -31,11 +31,13 @@ export class BezierCurve extends Shape implements Attributes, HasLineAnchor {
     this.p2 = p2;
   }
 
-  render(): svg.SVGPrimitive {
+  render(fillStyle: svg.FillStyle, strokeStyle: svg.StrokeStyle): svg.SVGPrimitive {
     return new svg.BezierCurve({
       p0: this.p0,
       p1: this.p1,
       p2: this.p2,
+      fillStyle,
+      strokeStyle,
     });
   }
 

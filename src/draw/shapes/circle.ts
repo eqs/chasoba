@@ -31,11 +31,13 @@ export class Circle extends Shape implements Attributes, HasAnchor {
     this.r = r;
   }
 
-  render(): svg.SVGPrimitive {
+  render(fillStyle: svg.FillStyle, strokeStyle: svg.StrokeStyle): svg.SVGPrimitive {
     return new svg.Circle({
       cx: this.cx,
       cy: this.cy,
       r: this.r,
+      fillStyle,
+      strokeStyle,
     });
   }
 

@@ -53,7 +53,7 @@ export class TextBox extends Shape implements Attributes, HasAnchor {
     });
   }
 
-  render(): svg.SVGPrimitive {
+  render(fillStyle: svg.FillStyle, strokeStyle: svg.StrokeStyle): svg.SVGPrimitive {
     let on = this.on.render();
     on.fillStyle = new svg.FillStyle(new svg.Color(0.0, 0.0, 0.0, 0.0));
     on.strokeStyle = new svg.StrokeStyle(new svg.Color(0.0, 0.0, 0.0, 0.0), 1);
@@ -66,7 +66,9 @@ export class TextBox extends Shape implements Attributes, HasAnchor {
         fontSize: this.fontSize,
         shapeInside: `url(#${this.on.id})`,
         shapeMargin: this.margin,
-        shapePadding: this.padding
+        shapePadding: this.padding,
+        fillStyle,
+        strokeStyle,
       })
     ];
 

@@ -11,7 +11,7 @@ export abstract class Shape {
     this.id = uuidv4();
   }
 
-  abstract render(): svg.SVGPrimitive;
+  abstract render(fillStyle: svg.FillStyle, strokeStyle: svg.StrokeStyle): svg.SVGPrimitive;
 }
 
 export interface HasAnchor {

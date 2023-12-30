@@ -35,12 +35,14 @@ export class Rectangle extends Shape implements Attributes, HasAnchor {
     this.height = height;
   }
 
-  render(): svg.SVGPrimitive {
+  render(fillStyle: svg.FillStyle, strokeStyle: svg.StrokeStyle): svg.SVGPrimitive {
     return new svg.Rectangle({
       x: this.x - this.width / 2,
       y: this.y - this.height / 2,
       width: this.width,
-      height: this.height
+      height: this.height,
+      fillStyle,
+      strokeStyle,
     });
   }
 

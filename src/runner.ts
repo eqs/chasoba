@@ -1,7 +1,7 @@
 import { show, error } from './utils';
 import { ASTree } from './parser';
 import { Vector } from './math';
-import { Canvas } from './draw/canvas';
+import { Canvas, DrawingContext } from './draw/canvas';
 import {
   Rectangle,
   Circle,
@@ -10,15 +10,18 @@ import {
   lineBetweenShapes,
   BezierCurve
 } from './draw/shapes';
+import * as svg from './draw/svg';
 
 export class Runner {
 
   global: any[]
   canvas: Canvas;
+  ctx: DrawingContext;
 
   constructor() {
     this.global = []
     this.canvas = new Canvas();
+    this.ctx = new DrawingContext({});
   }
 
   run(ast: ASTree): string {
@@ -145,6 +148,58 @@ export class Runner {
       if (args.length == 2) {
         this.canvas.setSize(args[0], args[1]);
       }
+    } else if (func == 'fill') {
+      if (args.length == 1) {
+        const c = args[0];
+        this.ctx.fillStyle.color = new svg.Color(c, c, c, 1.0);
+      } else if (args.length == 2) {
+        const c = args[0];
+        const a = args[1];
+        this.ctx.fillStyle.color = new svg.Color(c, c, c, a);
+      } else if (args.length == 3) {
+        const r = args[0];
+        const g = args[1];
+        const b = args[2];
+        this.ctx.fillStyle.color = new svg.Color(r, g, b, 1.0);
+      } else if (args.length == 4) {
+        const r = args[0];
+        const g = args[1];
+        const b = args[2];
+        const a = args[3];
+        this.ctx.fillStyle.color = new svg.Color(r, g, b, a);
+      } else {
+        error(`ERROR: Unknown definition of func = ${func}(${[args].flat().join(', ')})`);
+      }
+    } else if (func == 'no_fill') {
+      this.ctx.fillStyle.color = new svg.Color(0.0, 0.0, 0.0, 0.0);
+    } else if (func == 'stroke') {
+      if (args.length == 1) {
+        const c = args[0];
+        this.ctx.strokeStyle.color = new svg.Color(c, c, c, 1.0);
+      } else if (args.length == 2) {
+        const c = args[0];
+        const a = args[1];
+        this.ctx.strokeStyle.color = new svg.Color(c, c, c, a);
+      } else if (args.length == 3) {
+        const r = args[0];
+        const g = args[1];
+        const b = args[2];
+        this.ctx.strokeStyle.color = new svg.Color(r, g, b, 1.0);
+      } else if (args.length == 4) {
+        const r = args[0];
+        const g = args[1];
+        const b = args[2];
+        const a = args[3];
+        this.ctx.strokeStyle.color = new svg.Color(r, g, b, a);
+      } else {
+        error(`ERROR: Unknown definition of func = ${func}(${[args].flat().join(', ')})`);
+      }
+    } else if (func == 'no_stroke') {
+      if (args.length == 0) {
+        this.ctx.strokeStyle.color = new svg.Color(0.0, 0.0, 0.0, 0.0);
+      } else {
+        error(`ERROR: Unknown definition of func = ${func}(${[args].flat().join(', ')})`);
+      }
     } else if (func == 'sin') {
       return Math.sin(args);
     } else if (func == 'cos') {
@@ -170,7 +225,9 @@ export class Runner {
     } else if (func == 'get_y') {
       return args.getY();
     } else if (func == 'draw') {
-      this.canvas.addShape(args);
+      // args should be subclass of `Shape`
+      this.canvas.addComponent(this.ctx.clone());
+      this.canvas.addComponent(args);
       return args;
     } else if (func == 'rect') {
       if (args.length == 4) {
