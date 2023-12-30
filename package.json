@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc --project .",
-    "dev": "tsc --project . && node dist/index.js",
+    "dev": "tsc --project . && node dist/cli.js",
     "test": "jest"
   },
   "author": "eqs",
