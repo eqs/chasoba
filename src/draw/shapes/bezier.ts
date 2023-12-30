@@ -48,10 +48,10 @@ export class BezierCurve extends Shape implements Attributes, HasLineAnchor {
   }
 
   internalDivision(t: number): Vector {
-    // p(t) = (1-t)**2 * p0 + t*(1-t)*p1 + t**2 * p2
+    // p(t) = (1-t)**2 * p0 + 2*t*(1-t)*p1 + t**2 * p2
     return (
       this.p0.mul((1-t)*(1-t))
-        .add(this.p1.mul(t*(1-t)))
+        .add(this.p1.mul(2*t*(1-t)))
         .add(this.p2.mul(t*t))
     );
   }
