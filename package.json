@@ -8,6 +8,9 @@
     "dev": "tsc --project . && node dist/cli.js",
     "test": "jest"
   },
+  "bin": {
+    "chasoba": "./dist/cli.js"
+  },
   "author": "eqs",
   "license": "MIT",
   "devDependencies": {

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { read, show } from './utils';
 import { Chasoba } from './index';
 
